@@ -1,0 +1,21 @@
+void signIn(String email, String password) async {
+  try {
+    UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+
+    String userId = userCredential.user!.uid;
+
+    // Update user location
+    await updateUserLocation(userId);
+
+    // Navigate to home screen
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => HomeScreen()),
+    );
+  } catch (e) {
+    print('Error signing in: $e');
+  }
+}
